@@ -1,63 +1,104 @@
-<<<<<<< HEAD
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
+
+# 📦 Intsel Inventory Management System
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.shields.io/badge/Laravel-12.0-red?style=for-the-badge&logo=laravel" alt="Laravel 12">
+  <img src="https://img.shields.io/badge/PHP-8.2-blue?style=for-the-badge&logo=php" alt="PHP 8.2">
+  <img src="https://img.shields.io/badge/MySQL-Database-orange?style=for-the-badge&logo=mysql" alt="MySQL">
+  <img src="https://img.shields.io/badge/Bootstrap-5.3-purple?style=for-the-badge&logo=bootstrap" alt="Bootstrap 5">
+  <img src="https://img.shields.io/badge/Status-Completed-success?style=for-the-badge" alt="Status Completed">
 </p>
 
-## About Laravel
+### 🛠️ Inventory Management System built with Laravel 12
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A robust, web-based inventory management system designed to help organizations streamline assets tracking, categories profiling, user privileges, and item borrowing transactions efficiently.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📖 Table of Contents
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- [📌 About](#-about)
+- [✨ Key Features](#-key-features)
+- [⚙️ User Permissions](#-user-permissions)
+- [🛠️ Technology Stack](#%EF%B8%8F-technology-stack)
+- [🏗️ Software Architecture](#%EF%B8%8F-software-architecture)
+- [📊 Database Design](#-database-design)
+- [📈 Entity Relationship Diagram](#-entity-relationship-diagram)
+- [📂 Project Structure](#-project-structure)
+- [🚀 Installation & Configuration](#-installation--configuration)
+- [🔑 Default Accounts](#-default-accounts)
+- [🌐 Deployment](#-deployment)
+- [📷 Screenshots](#-screenshots)
+- [🔄 Future Improvements](#-future-improvements)
+- [👨‍💻 Author](#-author)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 📌 About
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Intsel Inventory Management System** adalah aplikasi berbasis web yang dikembangkan menggunakan **Laravel 12** untuk membantu pengelolaan logistik internal secara efisien dan terpantau. 
 
-### Premium Partners
+Sistem ini mencakup fungsionalitas penuh untuk pelacakan barang, manajemen kategori, kontrol transaksi peminjaman multi-produk, hingga analitik dasbor interaktif yang menerapkan arsitektur **Model-View-Controller (MVC)** dan sistem otentikasi berbasis peran (*Role-based Authentication*).
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## ✨ Key Features
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 📊 Dashboard Analytics
+* **Summary Widget:** Total ragam produk, jumlah produk dipinjam, produk tersedia, dan riwayat mutasi.
+* **Recent Monitoring:** Daftar transaksi peminjaman terbaru dan daftar produk yang baru saja ditambahkan.
 
-## Code of Conduct
+### 🔐 Authentication
+* Menggunakan integrasi **Laravel Breeze** untuk manajemen sesi yang aman.
+* Fitur mencakup *Login*, *Logout*, *Session Security Management*, dan proteksi rute halaman (*Protected Routes*).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 👥 User Management
+* Admin memiliki kuasa penuh untuk melakukan manajemen pengguna (*Create, Read, Update, Delete*).
+* Pembagian otorisasi yang ketat menjadi 2 level hak akses: **Admin** dan **Staff**.
 
-## Security Vulnerabilities
+### 🏷️ Category & Product Management
+* **CRUD Komplit:** Kelola data kategori barang dan spesifikasi detail produk.
+* **Spesifikasi Produk:** Pencatatan kode unik produk, kategori, stok aktual, lokasi penyimpanan fisik, kondisi barang, hingga unggah berkas gambar (*Image Upload & Preview*).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 📑 Borrowing Management
+* **Multi-Product Order:** Satu transaksi peminjaman dapat menampung beberapa produk sekaligus (*One-to-Many detail relationship*).
+* **Tracking Status:** Pencatatan nama peminjam, tanggal pinjam, batas tenggat pengembalian, dan otomatisasi *update* status peminjaman.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-=======
-# intsel-project
->>>>>>> c26226b29a1f51b0ab914a3e876093991dca93f2
+## ⚙️ User Permissions
+
+| Fitur / Halaman | Admin | Staff |
+| :--- | :---: | :---: |
+| **Dashboard Analytics** | ✔️ | ✔️ |
+| **Product & Category CRUD** | ✔️ | ✔️ |
+| **Borrowing Management** | ✔️ | ✔️ |
+| **User Management (CRUD)** | ✔️ | ❌ |
+| **Full Access Control** | ✔️ | ❌ |
+
+---
+
+## 🛠️ Technology Stack
+
+### Backend & Core
+* **Framework:** Laravel 12.x
+* **Language Runtime:** PHP 8.2+
+* **Database Mapping:** Eloquent ORM
+
+### Frontend Component
+* **Template Engine:** Blade Template Engine
+* **UI Framework:** Bootstrap 5.x
+* **Scripting Language:** HTML5, CSS3, JavaScript (ES6)
+
+### Database & Storage
+* **Engine:** MySQL
+* **File Driver:** Laravel Storage Integration via Symbolic Link
+
+---
+
+## 🏗️ Software Architecture
+
+Aplikasi ini menerapkan pola desain **MVC (Model-View-Controller)** yang memisahkan antara logika bisnis, representasi data, dan tampilan antarmuka.
