@@ -160,6 +160,8 @@ resources/
 routes/
 └── web.php
 ```
+## ERD
+<img src="public/assets/intsel/erd.png" alt="ERD Intsel" width="200">
 
 ---
 
