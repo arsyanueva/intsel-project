@@ -15,10 +15,15 @@
                             Manage system users
                         </p>
                     </div>
-
-                    <a href="{{ route('users.create') }}" class="btn btn-primary">
-                        + Add User
-                    </a>
+                    <div class="d-flex">
+                        <a href="{{ route('users.create') }}" class="btn btn-primary">
+                            + Add User
+                        </a>
+                        <div class="btn-group ms-2">
+                            <a href="{{ route('users.export.pdf') }}" class="btn btn-outline-secondary btn-sm">Export PDF</a>
+                            <a href="{{ route('users.export.excel') }}" class="btn btn-outline-success btn-sm">Export Excel</a>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -27,6 +32,29 @@
                         {{ session('success') }}
                     </div>
                 @endif
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <form method="GET" action="{{ route('users.index') }}">
+                            <label for="user-search" class="form-label">Search users</label>
+                            <div class="input-group">
+                                <input
+                                    id="user-search"
+                                    name="search"
+                                    type="text"
+                                    class="form-control"
+                                    value="{{ request('search') }}"
+                                    placeholder="Search users...">
+                                @if(request('search'))
+                                    <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">
+                                        Clear
+                                    </a>
+                                @endif
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">

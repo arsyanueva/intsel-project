@@ -31,14 +31,19 @@
             </li>
         </ul>
         <ul class="navbar-nav ms-auto">
+            <li class="nav-item me-2 d-flex align-items-center">
+                <button id="theme-toggle" class="btn btn-sm btn-outline-secondary">
+                    Dark Mode
+                </button>
+            </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle"
+                <div class="nav-link dropdown-toggle"
                    href="#"
                    data-bs-toggle="dropdown">
                     {{ Auth::user()->name }}
-                </a>
+                </div>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <span class="dropdown-item-text">
+                    <span class="dropdown-item">
                         {{ Auth::user()->email }}
                     </span>
                     <div class="dropdown-divider"></div>

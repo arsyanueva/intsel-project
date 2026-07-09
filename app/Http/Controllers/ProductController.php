@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -13,11 +14,66 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $products = Product::with('category')->latest()->paginate(10);
+        $query = Product::with('category')
+            ->withSum(['borrowingDetails as borrowed_quantity' => function ($query) {
+                $query->whereHas('borrowing', function ($query) {
+                    $query->where('status', 'Borrowed');
+                });
+            }], 'quantity')
+            ->orderBy('name');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('code', 'like', "%{$search}%")
+                    ->orWhere('location', 'like', "%{$search}%")
+                    ->orWhere('condition', 'like', "%{$search}%")
+                    ->orWhereHas('category', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $products = $query->paginate(10);
 
         return view('products.index', compact('products'));
+    }
+
+    public function exportPdf(): \Illuminate\Http\Response
+    {
+        $products = Product::with('category')
+            ->orderBy('name')
+            ->get();
+
+        $pdf = Pdf::loadView('products.export-pdf', compact('products'));
+
+        return $pdf->download('products.pdf');
+    }
+
+    public function exportExcel(): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $products = Product::with('category')
+            ->orderBy('name')
+            ->get()
+            ->map(function ($product) {
+                return [
+                    'Code' => $product->code,
+                    'Name' => $product->name,
+                    'Category' => $product->category->name ?? '-',
+                    'Available Stock' => max(0, $product->stock - $product->borrowingDetails()->whereHas('borrowing', function ($query) {
+                        $query->where('status', 'Borrowed');
+                    })->sum('quantity')),
+                    'Condition' => $product->condition,
+                    'Location' => $product->location,
+                ];
+            })
+            ->toArray();
+
+        return $this->downloadExcelSpreadsheet('products', $products);
     }
 
     /**

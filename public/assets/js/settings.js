@@ -12,11 +12,58 @@
       $("#theme-settings").toggleClass("open");
     });
 
-
     //background constants
     var navbar_classes = "navbar-danger navbar-success navbar-warning navbar-dark navbar-light navbar-primary navbar-info navbar-pink";
     var sidebar_classes = "sidebar-light sidebar-dark";
     var $body = $("body");
+    var $html = $("html");
+
+    function setThemeAttribute(mode) {
+      if (mode === 'dark') {
+        $html.attr('data-bs-theme', 'dark');
+      } else {
+        $html.attr('data-bs-theme', 'light');
+      }
+    }
+
+    function applyThemeMode(mode) {
+      if (mode === 'dark') {
+        $body.addClass('dark-mode');
+        $body.removeClass(sidebar_classes).addClass('sidebar-dark');
+        $('.navbar').removeClass(navbar_classes).addClass('navbar-dark');
+        setThemeAttribute('dark');
+      } else {
+        $body.removeClass('dark-mode');
+        $body.removeClass(sidebar_classes).addClass('sidebar-light');
+        $('.navbar').removeClass(navbar_classes).addClass('navbar-light');
+        setThemeAttribute('light');
+      }
+
+      updateThemeToggleText();
+    }
+
+    function updateThemeToggleText() {
+      if ($body.hasClass('dark-mode')) {
+        $('#theme-toggle').text('Light Mode');
+      } else {
+        $('#theme-toggle').text('Dark Mode');
+      }
+    }
+
+    var savedThemeMode = localStorage.getItem('themeMode');
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedThemeMode === 'dark' || (!savedThemeMode && prefersDark)) {
+      applyThemeMode('dark');
+    } else {
+      applyThemeMode('light');
+    }
+
+    $('#theme-toggle').on('click', function() {
+      var newMode = $body.hasClass('dark-mode') ? 'light' : 'dark';
+      localStorage.setItem('themeMode', newMode);
+      applyThemeMode(newMode);
+    });
 
     //sidebar backgrounds
     $("#sidebar-light-theme").on("click" , function(){

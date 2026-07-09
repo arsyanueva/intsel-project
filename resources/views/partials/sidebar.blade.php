@@ -9,16 +9,8 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
+
         @if(in_array(Auth::user()->role->name, ['Admin', 'Staff']))
-        <!-- Categories -->
-        <!-- Products -->
-        <!-- Borrowings -->
-        @endif
-
-        @if(Auth::user()->role->name == 'Admin')
-        <!-- Users -->
-        @endif
-
         {{-- Categories --}}
         <li class="nav-item {{ request()->routeIs('categories.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('categories.index') }}">
@@ -42,6 +34,8 @@
                 <span class="menu-title">Borrowings</span>
             </a>
         </li>
+        @endif
+
 
         {{-- Users --}}
         @if(Auth::user()->role->name == 'Admin')

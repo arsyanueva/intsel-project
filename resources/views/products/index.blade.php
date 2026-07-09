@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Products')
 
@@ -9,17 +9,19 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-
                     <div>
                         <h3 class="mb-1">Products</h3>
-                        <p class="text-muted">
-                            Manage inventory products
-                        </p>
+                        <p class="text-muted">Manage inventory products</p>
                     </div>
-
-                    <a href="{{ route('products.create') }}" class="btn btn-primary">
-                        + Add Product
-                    </a>
+                    <div class="d-flex">
+                        <a href="{{ route('products.create') }}" class="btn btn-primary">
+                            + Add Product
+                        </a>
+                        <div class="btn-group ms-2">
+                            <a href="{{ route('products.export.pdf') }}" class="btn btn-outline-secondary btn-sm">Export PDF</a>
+                            <a href="{{ route('products.export.excel') }}" class="btn btn-outline-success btn-sm">Export Excel</a>
+                        </div>
+                    </div>
                 </div>
 
                 @if(session('success'))
@@ -28,12 +30,22 @@
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="product-search" class="form-label">Search product</label>
-                        <input
-                            id="product-search"
-                            type="text"
-                            class="form-control"
-                            placeholder="Search product...">
+                        <form method="GET" action="{{ route('products.index') }}">
+                            <label for="product-search" class="form-label">Search product</label>
+                            <div class="input-group">
+                                <input
+                                    id="product-search"
+                                    name="search"
+                                    type="text"
+                                    class="form-control"
+                                    value="{{ request('search') }}"
+                                    placeholder="Search product...">
+                                @if(request('search'))
+                                    <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">Clear</a>
+                                @endif
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -46,7 +58,7 @@
                                 <th>Code</th>
                                 <th>Name</th>
                                 <th>Category</th>
-                                <th>Stock</th>
+                                <th>Available Stock</th>
                                 <th>Condition</th>
                                 <th>Location</th>
                                 <th style="width:180px;">Action</th>
@@ -66,14 +78,16 @@
                                     <td>{{ $product->code }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->category->name ?? '-' }}</td>
-                                    <td>{{ $product->stock }}</td>
+                                    <td>
+                                        {{ max(0, $product->stock - ($product->borrowed_quantity ?? 0)) }}
+                                        @if(max(0, $product->stock - ($product->borrowed_quantity ?? 0)) <= config('inventory.low_stock_threshold'))
+                                            <span class="badge bg-danger ms-1">Low stock</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $product->condition }}</td>
                                     <td>{{ $product->location }}</td>
                                     <td>
-                                        <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-warning">
-                                            Edit
-                                        </a>
-
+                                        <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-warning">Edit</a>
                                         <form action="{{ route('products.destroy', $product) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Delete this product?');">
                                             @csrf
                                             @method('DELETE')

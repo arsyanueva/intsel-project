@@ -15,10 +15,15 @@
                             Manage all product categories
                         </p>
                     </div>
-
-                    <a href="{{ route('categories.create') }}" class="btn btn-primary">
-                        + Add Category
-                    </a>
+                    <div class="d-flex">
+                        <a href="{{ route('categories.create') }}" class="btn btn-primary">
+                            + Add Category
+                        </a>
+                        <div class="btn-group ms-2">
+                            <a href="{{ route('categories.export.pdf') }}" class="btn btn-outline-secondary btn-sm">Export PDF</a>
+                            <a href="{{ route('categories.export.excel') }}" class="btn btn-outline-success btn-sm">Export Excel</a>
+                        </div>
+                    </div>
                 </div>
 
                 @if(session('success'))
@@ -27,12 +32,24 @@
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="category-search" class="form-label">Search category</label>
-                        <input
-                            id="category-search"
-                            type="text"
-                            class="form-control"
-                            placeholder="Search category...">
+                        <form method="GET" action="{{ route('categories.index') }}">
+                            <label for="category-search" class="form-label">Search category</label>
+                            <div class="input-group">
+                                <input
+                                    id="category-search"
+                                    name="search"
+                                    type="text"
+                                    class="form-control"
+                                    value="{{ request('search') }}"
+                                    placeholder="Search category...">
+                                @if(request('search'))
+                                    <a href="{{ route('categories.index') }}" class="btn btn-outline-secondary">
+                                        Clear
+                                    </a>
+                                @endif
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 

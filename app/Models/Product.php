@@ -27,4 +27,15 @@ class Product extends Model
     {
         return $this->hasMany(BorrowingDetail::class);
     }
+
+    public function getAvailableStockAttribute(): int
+    {
+        $borrowedQuantity = $this->borrowingDetails()
+            ->whereHas('borrowing', function ($query) {
+                $query->where('status', 'Borrowed');
+            })
+            ->sum('quantity');
+
+        return max(0, $this->stock - $borrowedQuantity);
+    }
 }

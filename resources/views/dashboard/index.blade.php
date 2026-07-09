@@ -13,6 +13,18 @@
     </div>
 </div>
 
+@if($lowStockCount > 0)
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="alert alert-warning">
+                <strong>Low stock alert:</strong>
+                {{ $lowStockCount }} product(s) have available stock at or below {{ config('inventory.low_stock_threshold') }}.
+                <a href="{{ route('products.index') }}" class="alert-link">Review products</a>
+            </div>
+        </div>
+    </div>
+@endif
+
 {{-- Statistic Cards --}}
 <div class="row">
 
@@ -58,6 +70,24 @@
         </div>
     </div>
 
+</div>
+
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">
+                    Monthly Borrowing Trends
+                </h4>
+
+                <div style="position: relative; height: 350px; width: 100%;">
+                    <canvas id="borrowingChart"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -147,7 +177,7 @@
                                 </td>
                                 <td>
                                     <span class="badge bg-primary">
-                                        {{ $product->stock }}
+                                        {{ $product->available_stock }}
                                     </span>
                                 </td>
                             </tr>
@@ -165,5 +195,30 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('borrowingChart');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: @json($months),
+        datasets: [{
+            label: 'Borrowings',
+            data: @json($totals),
+            borderWidth: 3,
+            tension: 0.3,
+            fill: false
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+</script>
+@endpush
 
 @endsection

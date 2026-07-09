@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CategoryController extends Controller
@@ -13,11 +15,41 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $categories = Category::latest()->paginate(10);
+        $query = Category::orderBy('name');
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $categories = $query->paginate(10);
 
         return view('categories.index', compact('categories'));
+    }
+
+    public function exportPdf(): \Illuminate\Http\Response
+    {
+        $categories = Category::orderBy('name')->get();
+
+        $pdf = Pdf::loadView('categories.export-pdf', compact('categories'));
+
+        return $pdf->download('categories.pdf');
+    }
+
+    public function exportExcel(): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $categories = Category::orderBy('name')
+            ->get()
+            ->map(function ($category) {
+                return [
+                    'Name' => $category->name,
+                    'Created At' => $category->created_at->format('d M Y'),
+                ];
+            })
+            ->toArray();
+
+        return $this->downloadExcelSpreadsheet('categories', $categories);
     }
 
     /**

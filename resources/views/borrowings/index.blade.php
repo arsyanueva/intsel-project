@@ -13,10 +13,15 @@
                         <h3 class="mb-1">Borrowings</h3>
                         <p class="text-muted mb-0">Manage borrowing transactions</p>
                     </div>
-
-                    <a href="{{ route('borrowings.create') }}" class="btn btn-primary">
-                        + New Borrowing
-                    </a>
+                    <div class="d-flex">
+                        <a href="{{ route('borrowings.create') }}" class="btn btn-primary">
+                            + New Borrowing
+                        </a>
+                        <div class="btn-group ms-2">
+                            <a href="{{ route('borrowings.export.pdf') }}" class="btn btn-outline-secondary btn-sm">Export PDF</a>
+                            <a href="{{ route('borrowings.export.excel') }}" class="btn btn-outline-success btn-sm">Export Excel</a>
+                        </div>
+                    </div>
                 </div>
 
                 @if(session('success'))
@@ -25,12 +30,24 @@
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="borrowing-search" class="form-label">Search borrowing</label>
-                        <input
-                            id="borrowing-search"
-                            type="text"
-                            class="form-control"
-                            placeholder="Search borrowing...">
+                        <form method="GET" action="{{ route('borrowings.index') }}">
+                            <label for="borrowing-search" class="form-label">Search borrowing</label>
+                            <div class="input-group">
+                                <input
+                                    id="borrowing-search"
+                                    name="search"
+                                    type="text"
+                                    class="form-control"
+                                    value="{{ request('search') }}"
+                                    placeholder="Search borrowing...">
+                                @if(request('search'))
+                                    <a href="{{ route('borrowings.index') }}" class="btn btn-outline-secondary">
+                                        Clear
+                                    </a>
+                                @endif
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 

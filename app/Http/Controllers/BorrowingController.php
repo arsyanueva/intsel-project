@@ -6,6 +6,7 @@ use App\Models\Borrowing;
 use App\Models\BorrowingDetail;
 use App\Models\Product;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,11 +14,57 @@ use Illuminate\View\View;
 
 class BorrowingController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $borrowings = Borrowing::with(['user', 'details.product'])->latest()->paginate(10);
+        $query = Borrowing::with(['user', 'details.product'])
+            ->join('users', 'users.id', '=', 'borrowings.user_id')
+            ->orderBy('users.name')
+            ->select('borrowings.*');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+
+            $query->where(function ($query) use ($search) {
+                $query->whereHas('user', function ($query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%");
+                })
+                ->orWhere('status', 'like', "%{$search}%");
+            });
+        }
+
+        $borrowings = $query->paginate(10);
 
         return view('borrowings.index', compact('borrowings'));
+    }
+
+    public function exportPdf(): \Illuminate\Http\Response
+    {
+        $borrowings = Borrowing::with(['user', 'details.product'])
+            ->orderBy('borrow_date', 'desc')
+            ->get();
+
+        $pdf = Pdf::loadView('borrowings.export-pdf', compact('borrowings'));
+
+        return $pdf->download('borrowings.pdf');
+    }
+
+    public function exportExcel(): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $borrowings = Borrowing::with(['user', 'details'])
+            ->orderBy('borrow_date', 'desc')
+            ->get()
+            ->map(function ($borrowing) {
+                return [
+                    'Borrower' => $borrowing->user->name,
+                    'Borrow Date' => $borrowing->borrow_date->format('d M Y'),
+                    'Return Date' => $borrowing->return_date?->format('d M Y') ?? '-',
+                    'Status' => $borrowing->status,
+                    'Total Quantity' => $borrowing->details->sum('quantity'),
+                ];
+            })
+            ->toArray();
+
+        return $this->downloadExcelSpreadsheet('borrowings', $borrowings);
     }
 
     public function create(): View
