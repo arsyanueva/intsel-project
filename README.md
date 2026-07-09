@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/PHP-8.2-blue?style=for-the-badge&logo=php" alt="PHP 8.2">
   <img src="https://img.shields.io/badge/MySQL-Database-orange?style=for-the-badge&logo=mysql" alt="MySQL">
   <img src="https://img.shields.io/badge/Bootstrap-5.3-purple?style=for-the-badge&logo=bootstrap" alt="Bootstrap 5">
-  <img src="https://img.shields.io/badge/Status-Completed-success?style=for-the-badge" alt="Status Completed">
+  <img src="https://img.shields.io/badge/Status-In--progress-green?style=for-the-badge" alt="Status In Progress">
 </p>
 
 ### 🛠️ Inventory Management System built with Laravel 12
