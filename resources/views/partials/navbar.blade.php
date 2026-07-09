@@ -11,9 +11,10 @@
         </div>
 
         <a class="navbar-brand brand-logo" href="{{ route('dashboard') }}">
-            <h4 class="fw-bold text-primary mt-2">
-                Inventory
-            </h4>
+            <img src="{{ asset('assets/intsel/logo-intsel.png') }}"
+                alt="Telkomsel Logo"
+                height="40"
+                class="d-inline-block align-top me-2">
         </a>
 
     </div>

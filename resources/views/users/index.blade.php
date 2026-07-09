@@ -42,7 +42,7 @@
                         <tbody>
                         @forelse($users as $user)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $users->firstItem() + $loop->index }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
@@ -77,8 +77,10 @@
                         @endforelse
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $users->withQueryString()->links() }}
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>

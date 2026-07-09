@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index(): View
     {
-        $users = User::with('role')->latest()->get();
+        $users = User::with('role')->latest()->paginate(10);
 
         return view('users.index', compact('users'));
     }

@@ -49,7 +49,7 @@
                         <tbody>
                             @forelse($borrowings as $borrowing)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $borrowings->firstItem() + $loop->index }}</td>
                                     <td>{{ $borrowing->user->name ?? '-' }}</td>
                                     <td>{{ $borrowing->borrow_date?->format('d F Y') ?? '-' }}</td>
                                     <td>{{ $borrowing->return_date?->format('d F Y') ?? '-' }}</td>
@@ -77,6 +77,9 @@
                             @endforelse
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $borrowings->withQueryString()->links() }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -6,7 +6,11 @@
         </span>
 
         <span class="float-none float-sm-end d-block mt-1 mt-sm-0 text-center">
-            Telkomsel Internship Challenge
+            <img src="https://assets.telkomsel.com/public/telkomsel-logo-default-red.png?VersionId=iufWNUxhBxzA5ad9y4Yy21kw4Iivo6sb"
+                alt="Telkomsel Logo"
+                height="40"
+                class="d-inline-block align-top me-2">
+
         </span>
 
     </div>

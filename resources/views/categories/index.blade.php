@@ -49,7 +49,7 @@
                         <tbody>
                             @forelse($categories as $category)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $categories->firstItem() + $loop->index }}</td>
                                     <td>{{ $category->name }}</td>
                                     <td>
                                         <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-warning">
@@ -70,6 +70,9 @@
                             @endforelse
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $categories->withQueryString()->links() }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@ class BorrowingController extends Controller
 {
     public function index(): View
     {
-        $borrowings = Borrowing::with(['user', 'details.product'])->latest()->get();
+        $borrowings = Borrowing::with(['user', 'details.product'])->latest()->paginate(10);
 
         return view('borrowings.index', compact('borrowings'));
     }

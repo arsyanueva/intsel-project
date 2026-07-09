@@ -22,9 +22,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
 });
 
-Route::get('/admin-test', function () {
-    return 'Welcome Admin!';
-})->middleware(['auth', 'role:Admin']);
+Route::middleware(['auth', 'role:Admin'])->group(function () {
+    Route::resource('users', UserController::class);
+});
+
+Route::middleware(['auth', 'role:Admin,Staff'])->group(function () {
+    Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
+    Route::resource('borrowings', BorrowingController::class);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

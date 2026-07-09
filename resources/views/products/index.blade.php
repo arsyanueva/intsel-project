@@ -55,7 +55,7 @@
                         <tbody>
                             @forelse($products as $product)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $products->firstItem() + $loop->index }}</td>
                                     <td>
                                         @if($product->image)
                                             <img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}" class="img-thumbnail" style="max-width: 80px;">
@@ -88,6 +88,9 @@
                             @endforelse
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $products->withQueryString()->links() }}
+                    </div>
                 </div>
             </div>
         </div>
